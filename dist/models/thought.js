@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { reactionSchema } from './reactions.js';
+import Reactions from './reactions.js';
 // Schema to create Thought model
 // This schema is used as a subdocument in the User model
 const thoughtSchema = new Schema({
@@ -17,7 +17,7 @@ const thoughtSchema = new Schema({
         type: String,
         required: true,
     },
-    reactions: [reactionSchema],
+    reactions: [Reactions],
 }, {
     toJSON: {
         virtuals: true,

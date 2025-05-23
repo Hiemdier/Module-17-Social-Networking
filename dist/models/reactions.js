@@ -1,7 +1,7 @@
 import { Schema, Types } from 'mongoose';
 // Schema to create Reaction model
 // This schema is used as a subdocument in the Thought model
-export const reactionSchema = new Schema({
+const reactionSchema = new Schema({
     reactionId: {
         type: Schema.Types.ObjectId,
         default: () => new Types.ObjectId(),
@@ -26,5 +26,5 @@ export const reactionSchema = new Schema({
     id: false,
     _id: false,
 });
-// Export the reaction schema for use in other models
-export default reactionSchema;
+const Reactions = reactionSchema;
+export default Reactions;

@@ -11,7 +11,7 @@ export interface IReaction {
 
 // Schema to create Reaction model
 // This schema is used as a subdocument in the Thought model
-export const reactionSchema = new Schema<IReaction>(
+const reactionSchema = new Schema<IReaction>(
   {
     reactionId: {
       type: Schema.Types.ObjectId,
@@ -40,5 +40,6 @@ export const reactionSchema = new Schema<IReaction>(
   }
 );
 
-// Export the reaction schema for use in other models
-export default reactionSchema;
+const Reactions = reactionSchema;
+
+export default Reactions;

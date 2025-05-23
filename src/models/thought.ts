@@ -1,12 +1,12 @@
 import { Schema, Document, model } from 'mongoose';
-import { reactionSchema, IReaction } from './reactions.js';
+import Reactions from './reactions.js';
 
 
 export interface IThought extends Document {
   thoughtText: string;
   createdAt: Date;
   username: string;
-  reactions: IReaction[];
+  reactions: typeof Reactions[];
   reactionCount: number;
 }
 
@@ -28,7 +28,7 @@ const thoughtSchema = new Schema<IThought>(
       type: String,
       required: true,
     },
-    reactions: [reactionSchema],
+    reactions: [Reactions],
   },
   {
     toJSON: {

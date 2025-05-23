@@ -91,6 +91,23 @@ const addReaction = async (req: Request, res: Response) => {
     }
 };
 
+const updateReaction = async (req: Request, res: Response) => {
+    try {
+        const thought = await Thoughts.findOneAndUpdate(
+            { _id: req.params.thoughtId, 'reactions.reactionId': req.params.reactionId },
+            { $set: { 'reactions.$.reactionBody': req.body.reactionBody } },
+            { new: true }
+        );
+        if (!thought) {
+            return res.status(404).json({message: 'Thought or reaction not found'});
+        }
+        return res.status(200).json(thought);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({message: 'Error updating reaction'});
+    }
+};
+
 const removeReaction = async (req: Request, res: Response) => {
     try {
         const thought = await Thoughts.findByIdAndUpdate(
@@ -115,6 +132,7 @@ const thoughtsControl = {
     updateThought,
     deleteThought,
     addReaction,
+    updateReaction,
     removeReaction
 };
 

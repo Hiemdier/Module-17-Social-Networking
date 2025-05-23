@@ -65,48 +65,13 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
-const addFriend = async (req: Request, res: Response) => {
-  try {
-    const user = await User.findByIdAndUpdate(
-      req.params.userId,
-      { $addToSet: { friends: req.params.friendId } },
-      { new: true }
-    );
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-    return res.json(user);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'Error adding friend' });
-  }
-};
-
-const removeFriend = async (req: Request, res: Response) => {
-  try {
-    const user = await User.findByIdAndUpdate(
-      req.params.userId,
-      { $pull: { friends: req.params.friendId } },
-      { new: true }
-    );
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-    return res.json(user);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'Error removing friend' });
-  }
-};
 
 const usersControl = {
   getAllUsers,
   getUserById,
   createUser,
   updateUser,
-  deleteUser,
-  addFriend,
-  removeFriend,
+  deleteUser
 };
 
 export default usersControl;

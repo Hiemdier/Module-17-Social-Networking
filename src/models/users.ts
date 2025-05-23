@@ -1,5 +1,6 @@
 import { Schema, Document, Types } from 'mongoose';
 import mongoose from 'mongoose';
+import Friend from './friend.js';
 
 // Interface for User model
 // This interface defines the structure of the User document
@@ -7,7 +8,7 @@ interface IUser extends Document {
   username: string;
   email: string;
   thoughts: Types.ObjectId[];
-  friends: Types.ObjectId[];
+  friends: typeof Friend[];
   friendCount: number;
 }
 

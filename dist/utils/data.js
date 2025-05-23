@@ -1,5 +1,7 @@
 import { Types } from 'mongoose';
+// Helper to get a random item from an array
 export const getRandomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
+// Sample usernames and corresponding emails
 const usernames = [
     'codecat', 'devmaster', 'bughunter', 'stackqueen', 'nodeknight',
     'typelord', 'asyncguru', 'jsonjunkie', 'mongohead', 'reactron',
@@ -29,6 +31,18 @@ const reactionText = [
     '👏👏👏',
     'True dev energy',
 ];
+// Move this above generateThoughts because it's used there
+const generateReactions = (excludeUser) => {
+    const count = Math.floor(Math.random() * 3);
+    const reactionUsers = usernames.filter((u) => u !== excludeUser);
+    return Array.from({ length: count }, () => ({
+        reactionId: new Types.ObjectId(),
+        reactionBody: getRandomItem(reactionText),
+        username: getRandomItem(reactionUsers),
+        createdAt: new Date(),
+    }));
+};
+// Generate user objects with _id, username, email, empty thoughts and friends arrays
 export const generateUsers = () => {
     return usernames.map((username, i) => ({
         _id: new Types.ObjectId(),
@@ -38,8 +52,10 @@ export const generateUsers = () => {
         friends: [],
     }));
 };
+// Generate thought objects with reactions for each user
 export const generateThoughts = (users) => {
-    return users.map((user) => {
+    return users
+        .map((user) => {
         const numThoughts = Math.floor(Math.random() * 3) + 1;
         return Array.from({ length: numThoughts }, () => {
             const text = getRandomItem(thoughtsText);
@@ -51,24 +67,23 @@ export const generateThoughts = (users) => {
                 reactions: generateReactions(user.username),
             };
         });
-    }).flat();
+    })
+        .flat();
 };
-const generateReactions = (excludeUser) => {
-    const count = Math.floor(Math.random() * 3);
-    const reactionUsers = usernames.filter((u) => u !== excludeUser);
-    return Array.from({ length: count }, () => ({
-        reactionId: new Types.ObjectId(),
-        reactionBody: getRandomItem(reactionText),
-        username: getRandomItem(reactionUsers),
-        createdAt: new Date(),
-    }));
-};
-export const addRandomFriends = (users) => {
+// Generate friends for users, returning new users enriched with friends array (with IDs)
+export const generateFriends = (users) => {
     return users.map((user) => {
-        const others = users.filter((u) => u._id.toString() !== user._id.toString());
-        const friendCount = Math.floor(Math.random() * 4);
-        const friendIds = Array.from(new Set(Array.from({ length: friendCount }, () => getRandomItem(others)._id)));
-        user.friends = friendIds;
-        return user;
+        const numFriends = Math.floor(Math.random() * 5);
+        const friends = new Set();
+        while (friends.size < numFriends) {
+            const friend = getRandomItem(users)._id;
+            if (friend.toString() !== user._id.toString()) {
+                friends.add(friend.toString());
+            }
+        }
+        return {
+            ...user,
+            friends: Array.from(friends),
+        };
     });
 };
