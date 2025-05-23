@@ -2,16 +2,21 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const mongodb = process.env.MONGODB_URI;
+const MONGO_URI = process.env.MONGODB_URI;
 
-const connectDB = async () => {
-    try {
-        await mongoose.connect(mongodb || '');
-        console.log('MongoDB connected');
-    } catch (error) {
-        console.error('MongoDB connection error:', error);
-        process.exit(1);
+mongoose.set('strictQuery', false);
+
+// Function to connect to MongoDB
+// This function uses Mongoose to connect to the MongoDB database
+export const connectDB = async (): Promise<void> => {
+  try {
+    if (!MONGO_URI) {
+      throw new Error('MONGODB_URI environment variable is not defined');
     }
+    await mongoose.connect(MONGO_URI);
+    console.log('Social Network API connected to MongoDB');
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error);
+    process.exit(1);
+  }
 };
-
-export default connectDB;

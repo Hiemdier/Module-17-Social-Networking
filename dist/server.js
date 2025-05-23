@@ -1,15 +1,14 @@
 import express from 'express';
-import db from './config/connection.js';
+import { connectDB } from './config/connection.js';
 import routes from './routes/index.js';
-const PORT = 3001;
 const app = express();
+const PORT = 3001;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(routes);
-db().then(() => {
+// Start server
+connectDB().then(() => {
     app.listen(PORT, () => {
-        console.log(`API server for Social Networking, running on port ${PORT}!`);
+        console.log(`🥳 API server running on port ${PORT}!`);
     });
-}).catch((err) => {
-    console.error('Failed to connect to the database:', err);
 });

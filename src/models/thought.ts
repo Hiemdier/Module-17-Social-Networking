@@ -28,7 +28,7 @@ const thoughtSchema = new Schema<IThought>(
       type: String,
       required: true,
     },
-    reactions: [Reactions],
+    reactions: [Reactions.schema],
   },
   {
     toJSON: {

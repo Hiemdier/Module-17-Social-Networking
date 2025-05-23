@@ -1,4 +1,4 @@
-import { Schema, Types } from 'mongoose';
+import { model, Schema, Types } from 'mongoose';
 // Schema to create Reaction model
 // This schema is used as a subdocument in the Thought model
 const reactionSchema = new Schema({
@@ -26,5 +26,5 @@ const reactionSchema = new Schema({
     id: false,
     _id: false,
 });
-const Reactions = reactionSchema;
+const Reactions = model('Reaction', reactionSchema);
 export default Reactions;

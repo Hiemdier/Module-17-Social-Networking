@@ -1,8 +1,23 @@
-import {Router} from 'express';
-import usersControl from '../../controllers/usersControl.js';
+import { Router } from 'express';
+import {
+  getAllUsers,
+  getSingleUser,
+  createUser,
+  updateUser,
+  deleteUser,
+  addFriend,
+  removeFriend,
+} from '../../controllers/usersControl.js';
 
 const router = Router();
 
-router.route('/').get(usersControl.getAllUsers).post(usersControl.createUser);
-router.route('/:userId').get(usersControl.getUserById).put(usersControl.updateUser).delete(usersControl.deleteUser);
+// /api/users
+router.route('/').get(getAllUsers).post(createUser);
+
+// /api/users/:userId
+router.route('/:userId').get(getSingleUser).put(updateUser).delete(deleteUser);
+
+// /api/users/:userId/friends/:friendId
+router.route('/:userId/friends/:friendId').post(addFriend).delete(removeFriend);
+
 export default router;

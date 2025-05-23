@@ -1,8 +1,7 @@
+import { model, Schema, Types } from 'mongoose';
 
-import { Schema, Types } from 'mongoose';
 
-
-export interface IReaction {
+interface IReaction {
   reactionId: Types.ObjectId;
   reactionBody: string;
   username: string;
@@ -40,6 +39,6 @@ const reactionSchema = new Schema<IReaction>(
   }
 );
 
-const Reactions = reactionSchema;
+const Reactions = model('Reaction', reactionSchema);
 
 export default Reactions;
