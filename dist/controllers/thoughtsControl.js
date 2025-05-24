@@ -101,7 +101,7 @@ export const removeReaction = async (req, res) => {
     try {
         const thought = await Thought.findByIdAndUpdate(req.params.thoughtId, { $pull: { reactions: { reactionId: req.params.reactionId } } }, { new: true });
         if (!thought) {
-            res.status(404).json({ message: 'Thought not found' });
+            res.status(404).json({ message: 'Reaction not found' });
             return;
         }
         res.json(thought);
